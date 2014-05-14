@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Gulpifyme !</title>
+
+  <meta name="description"
+        content="Slides of my talk introducing GulpJS">
+  <meta name="author" content="Enrique Amodeo">
+
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent"/>
+
+  <link rel="stylesheet" href="reveal.js-2.1/css/reveal.css">
+  <link rel="stylesheet" href="reveal.js-2.1/css/theme/default.css" id="theme">
+
+  <!-- For syntax highlighting -->
+  <link rel="stylesheet" href="reveal.js-2.1/lib/css/zenburn.css">
+
+  <style>
+      /* Aside */
+    .left {
+      float: left;
+    }
+
+    img.left {
+      margin: 0;
+      padding: 0;
+      width: 25%;
+    }
+
+    img.left + ul {
+      margin: 0;
+      width: 60%;
+    }
+
+      /* Figures with captions */
+    .reveal section figure {
+      position: relative;
+      margin: 0 auto;
+      padding: 0;
+      width: 600px;
+      height: 400px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .reveal section figure > img {
+      width: 100%;
+      max-height: none;
+      border-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .reveal section figure > figcaption {
+      position: absolute;
+      bottom: 0.5em;
+      left: 0;
+      width: 100%;
+      border-style: none;
+      border-width: 0;
+      margin: 0;
+      padding: 0;
+      background-color: rgb(37, 33, 28);
+      background-color: rgba(37, 33, 28, 0.5);
+      font-size: 0.4em;
+      text-align: center;
+    }
+
+    .reveal section figure > figcaption {
+      line-height: 1.5em;
+      vertical-align: middle;
+    }
+
+    .reveal section figure > figcaption a {
+      line-height: 1.5em !important;
+    }
+
+      /* Cover */
+    .reveal section.cover footer {
+      line-height: 33px;
+      clear: both;
+    }
+
+    .reveal section.cover > footer {
+      position: absolute;
+      bottom: 0.5em;
+      left: 0;
+      border-style: none;
+      border-width: 0;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      background-color: rgb(37, 33, 28);
+      background-color: rgba(37, 33, 28, 0.5);
+      font-size: 0.4em;
+      text-align: center;
+    }
+
+    .reveal section.cover footer img {
+      float: left;
+      margin: 0 1em 0 0;
+      padding: 0;
+      cursor: pointer;
+      border-style: none;
+    }
+
+    .reveal section.cover footer a,
+    .reveal section.cover footer span {
+      margin: 0;
+      padding: 0;
+      vertical-align: baseline;
+      line-height: 33px;
+    }
+
+      /* Separata */
+    .reveal section.separata hgroup {
+      margin-top: 0.5em;
+    }
+
+    .reveal section.separata hgroup h2,
+    .reveal section.separata hgroup h3,
+    .reveal section.separata hgroup h4 {
+      color: #F0F1EB;
+      text-shadow: #111150 0px 0px 0.2em;
+    }
+
+    .reveal section.separata figure {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .reveal section.separata figure > img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-style: none;
+      border-width: 0;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      z-index: -1;
+    }
+
+      /* Animation */
+    div.animation-container {
+      position: relative;
+      margin: 0 auto;
+      padding: 0;
+      width: 809px;
+      height: 399px;
+      background-color: transparent;
+      -moz-box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 6px 0px;
+      -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 6px 0px;
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 6px 0px;
+      overflow: hidden;
+    }
+
+    .animation-container .frame,
+    .animation-container .frame > img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: 0;
+      border-style: none;
+      padding: 0;
+      margin: 0;
+      min-width: 100%;
+      max-width: none;
+      max-height: none;
+      box-shadow: none
+    }
+
+    .animation-container .frame > img.loader {
+      position: absolute;
+      top: 140px;
+      left: 180px;
+      border: 0;
+      border-style: none;
+      padding: 0;
+      margin: 0;
+      width: 126px;
+      min-width: 126px;
+      box-shadow: none;
+    }
+
+    .snippet {
+      font-family: monospace !important;
+    }
+
+    .reveal table.matrix {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .reveal table.matrix th.pivot {
+      border-style: none;
+    }
+
+    .reveal table.matrix th, .reveal table.matrix td {
+      border-style: solid;
+      border-width: 1px;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    .reveal table.matrix td li {
+      list-style: none;
+    }
+
+    .reveal pre {
+      width:100%;
+    }
+
+    .reveal .bad {
+      color: red;
+      font-style: italic;
+    }
+
+    .reveal .small {
+      font-size: 0.6em;
+    }
+
+    .reveal .highlight {
+      background-color: #606000; /*#222230;*/
+      font-style: italic;
+    }
+    
+    .reveal section figure.marble {
+      width:100%;
+      margin: auto 0;
+    }
+    .reveal section figure.marble img{
+      margin: 0 auto; 
+      vertical-align:middle;
+      display:inline-block;
+      height: 100%;
+      width:auto;
+    }
+  </style>
+  <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+  <script>
+    document.write('<link rel="stylesheet" href="reveal.js-2.1/css/print/' + ( window.location.search.match(/print-pdf/gi) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">');
+  </script>
+
+  <!--[if lt IE 9]>
+  <script src="reveal.js-2.1/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+
+<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides">
+
+<section class="cover">
+  <h1>Gulpifyme !</h1>
+  <img src="img/gulp-2x.png" style="height: 250px">
+  <h2>(but with love)</h2>
+  <p>
+    <small>By <a
+            href="http://eamodeorubio.wordpress.com/about/">Enrique
+      Amodeo</a> /
+      <a href="http://twitter.com/eamodeorubio">@eamodeorubio</a></small>
+  </p>
+  <footer>
+    <a rel="license"
+       href="http://creativecommons.org/licenses/by-nc-sa/2.0/">
+      <img alt="Creative Commons License"
+           src="http://i.creativecommons.org/l/by-nc-sa/2.0/88x31.png"/>
+    </a>
+    
+    <a rel="license" style="vertical-align: middle"
+       href="http://creativecommons.org/licenses/by-nc-sa/2.0/">
+      This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 2.0 Generic
+      License
+    </a>
+  </footer>
+</section>
+
+<section>
+  <h2>Enrique Amodeo</h2>
+  <h4>(who is this guy?)</h4>
+
+  <img src="img/EnriqueAmodeo.jpg" class="left"
+       alt="[Enrique Amodeo, circa 2010]">
+  <ul>
+    <li>Programming since 1984</li>
+    <li>Currently eBay Senior Software Engineer</li>
+    <li>Has loved JS since 2005</li>
+    <li>Test infected</li>
+    <li>Enthusiast of the Agile/Lean way</li>
+    <li>Follow me at
+      <a href="https://twitter.com/eamodeorubio">@eamodeorubio</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2>This talk</h2>
+  <ol>
+    <li>About Gulp</li>
+    <li>To plugin or not to plugin?</li>
+    <li>Is Gulp for me?</li>
+  </ol>
+</section>
+  
+<section class="separata">
+  <img src="./img/gulp-2x.png" style="background-color:white">
+</section>
+  
+<section>
+  <h2>What is Gulp?</h2>
+  <ul>
+    <li>A build tool</li>
+    <li>Task centric</li>
+    <li>Based on NodeJS Streams</li>
+    <li>Specifically a stream of Vinyl Files</li>
+  </ul>
+  <h2 class="fragment">WTF?????</h2>
+</section>
+
+<section>
+  <h2>Good old plain tasks</h2>
+  <pre><code contenteditable>
+    gulp.task('task-A', function () {
+        // Do A here!
+    };
+
+    gulp.task('task-B', function() { 
+      // Do B here!
+    });
+
+    gulp.task('task-C', ['task-B'], function() {
+      // Do C here, but wait for B to complete!
+    });
+
+    gulp.task('main', ['task-A', 'task-C']);
+  </code></pre>
+</section>
+
+<section>
+  <h2>Good old *ASYNC* tasks</h2>
+  <pre><code contenteditable>
+    gulp.task('task-A', function () {
+        return iPromiseIWillDoA();
+    };
+
+    gulp.task('task-B', function(cb) { 
+      // Do B
+      if(everythingIsOk()) {
+        return cb();
+      }
+      cb('Error!');
+    });
+
+    gulp.task('task-C', ['task-B'], function() {
+      return streamOfCoolThingsForC();
+    });
+  </code></pre>
+</section>
+
+<section>
+  <h2>Getting the Files</h2>
+  <pre><code contenteditable>    gulp.task('cool-build', function () {
+        return gulp.src(['src/**/*.js', 'extra/**/*.js']);
+    };</code></pre>
+  <figure style="width: 100%">
+    <img src="./img/gulpsrc.png">
+  </figure>
+</section>
+
+<section>
+  <h2>Processing the Files</h2>
+  <pre><code contenteditable>    gulp.task('cool-build', function () {
+        return gulp.src(['src/**/*.js', 'extra/**/*.js'])
+                   .pipe(coolify())
+                   .pipe(fastify({ compileToC: true }));
+    };</code></pre>
+  <figure style="width: 100%">
+    <img src="./img/gulppipe.png">
+  </figure>
+</section>
+
+<section>
+  <h2>Write the result</h2>
+  <pre><code contenteditable>    gulp.task('cool-build', function () {
+        return gulp.src(['src/**/*.js', 'extra/**/*.js'])
+                   .pipe(coolify())
+                   .pipe(fastify({ compileToC: true }))
+                   .pipe(gulp.dest('output/dir/'));
+    };</code></pre>
+  <figure style="width: 100%">
+    <img src="./img/gulpdst.png">
+  </figure>
+</section>
+
+<section>
+  <h2>The whole picture</h2>
+  <figure class="marble"
+          style="height: 550px">
+    <img src="./img/streams_mini.png">
+  </figure>
+</section>
+
+<section class="separata">
+  <hgroup>
+    <h2>To plugin or not to plugin?</h2>
+  </hgroup>
+  <figure>
+    <img src="./img/plugin.jpg">
+    <figcaption>
+      <span>Original by Simon Liu: </span>
+      <a href="https://www.flickr.com/photos/si-mocs/6885288560"
+         target="_blank">https://www.flickr.com/photos/si-mocs/6885288560</a>
+    </figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>More Plugins than you expect</h2>
+  <pre><code contenteditable>
+  $> npm install --save-dev gulp-concat
+  $> npm install --save-dev gulp-clean
+  $> npm install --save-dev gulp-less
+  $> npm install --save-dev gulp-bless
+  $> npm install --save-dev gulp-minimify-css
+  $> npm install --save-dev gulp-jshint
+  $> npm install --save-dev gulp-csslint
+  $> npm install --save-dev gulp-mocha
+  $> npm install --save-dev gulp-watch
+  $> npm install --save-dev gulp-cached
+  $> npm install --save-dev gulp-streamify
+  $> npm install --save-dev gulp-uglify
+  $> npm install --save-dev gulp-imagemin
+  </code></pre>
+</section>
+
+<section>
+  <h2>Vinyl files!</h2>
+  <ul>
+    <li>Plain JS Object</li>
+    <li>Path &amp; Relative path</li>
+    <li>Contents can be Buffer or Stream or none</li>
+    <li>You can always pipe them</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Plugins are easy</h2>
+<pre><code contenteditable>  var through = require('through2'),
+      PluginError = require('gulp-util').PluginError;
+  module.exports = function(opts) {
+    return through.obj(function(file, enc, callback) {
+      if (file.isBuffer()) {
+        // Process file, contents are a buffer 
+      } else if (file.isStream()) {
+        // Process file, contents are in a stream
+      }
+      if(someError) {
+        this.emit('error', new PluginError(myPluginName, someError));
+      } else {
+        this.push(file);
+      }
+      callback();
+    });
+};</code></pre>
+</section>
+
+<section>
+  <h2>No need to plugin: Browserify</h2>
+  <pre><code contenteditable>    gulp.task('build:js', ['clean:js'], function () {
+      return browserify({
+        entries: './main',
+        noParse: ['jquery'],
+        basedir: APP_SRC_DIR
+      }).exclude('jquery')
+        .bundle() // Up to here is normal browserify stuff!
+        .pipe(source(require('./package.json').name + '.min.js'))
+        // From here we have a Vinyl File stream
+        .pipe(streamify(uglify({
+          preserveComments: 'some'
+        })))
+        .pipe(gulp.dest(OUTPUT_DIR + 'js'));
+    });</code></pre>
+</section>
+
+<section>
+  <h2>No need to plugin: Karma</h2>
+  <pre><code contenteditable>  
+    var karma = require('karma'),
+        karmaConfig = require('./karma.conf.js');
+
+    gulp.task('karma', ['dist'], function (cb) {
+      karma.server.start(karmaConfig, cb);
+    });
+  </code></pre>
+</section>
+
+<section>
+  <h2>Watching</h2>
+  <pre><code contenteditable>  
+    gulp.task('lint', function () {
+      return gulp
+          .src(['test/**/*.js', 'lib/**/*.js'])
+          .pipe(cache(taskId))
+          .pipe(jshint(config))
+          .pipe(jshint.reporter('default'));
+    });
+
+    gulp.watch(['test/**/*.js', 'lib/**/*.js'], ['lint']);
+  </code></pre>
+</section>
+
+<section>
+  <h2>Watching: this won't work</h2>
+  <pre><code contenteditable>  
+    gulp.task('lint', function () {
+      return gulp
+          .src(['test/**/*.js', 'lib/**/*.js'])
+          .pipe(cache(taskId))
+          .pipe(jshint(config))
+          .pipe(jshint.reporter('default'))
+          .pipe(jshint.reporter('fail'));
+    });
+    
+    gulp.watch(['test/**/*.js', 'lib/**/*.js'], ['lint']);
+  </code></pre>
+</section>
+
+<section>
+  <h2>Watching: Need to plumber</h2>
+  <pre><code contenteditable>  
+    gulp.task('lint', function () {
+      return gulp
+          .src(['test/**/*.js', 'lib/**/*.js'])
+          .pipe(cache(taskId))
+          .pipe(jshint(config))
+          .pipe(jshint.reporter('default'))
+          .pipe(plumber({
+            errorHandler: function() {
+              this.emit('end');
+            }
+          }))
+          .pipe(jshint.reporter('fail'));
+    });    
+    gulp.watch(['test/**/*.js', 'lib/**/*.js'], ['lint']);
+  </code></pre>
+</section>
+
+<section>
+  <h2>Integrating with CI</h2>
+  <pre><code contenteditable>    function makeLint() {
+      return gulp.src(['test/**/*.js', 'lib/**/*.js'])
+          .pipe(cache(taskId))
+          .pipe(jshint(config))
+          .pipe(jshint.reporter('default'));
+    }
+    gulp.task('lint', function () {
+      return makeLint();
+    });
+    gulp.task('ci', function() {
+      return makeLint().on('error', function() {
+        process.exit(1);
+      });
+    });
+    gulp.task('dev', function() {
+      return gulp.watch(['test/**/*.js', 'lib/**/*.js'], ['lint']);
+    });
+  </code></pre>
+</section>
+
+<section class="separata">
+  <hgroup>
+    <h2>Is Gulp for me?</h2>
+  </hgroup>
+  <figure>
+    <img src="./img/questions.jpg">
+    <figcaption>
+      <span>Original by Ethan Lofton: </span>
+      <a href="http://www.flickr.com/photos/eleaf/2536358399/"
+         target="_blank">http://bit.ly/1arHGj</a>
+    </figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>In favour of Gulp</h2>
+  <ul>
+    <li>Super fast!</li>
+    <li>Pretty nice plugin ecosystem</li>
+    <li>No need of a plugin for everything</li>
+    <li>You don't get stuck</li>
+    <li>Simple things are done in a simple way</li>
+    <li>It's code, you can make your own utils!</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Against Gulp</h2>
+  <ul>
+    <li>You need to know how to code JS!</li>
+    <li>You need understand NodeJS Streams</li>
+    <li>Still a bit immature</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Conclusion</h2>
+  <ul>
+    <li>It works for me!</li>
+    <li>Probably not good for non developers</li>
+    <li>It will be better</li>
+  </ul>
+</section>
+
+</div>
+
+</div>
+
+<script src="reveal.js-2.1/lib/js/head.min.js"></script>
+<script src="reveal.js-2.1/js/reveal.min.js"></script>
+
+<script>
+
+  // Full list of configuration options available here:
+  // https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+
+    theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+    transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+    // Optional libraries used to extend on reveal.js
+    dependencies: [
+      { src: 'reveal.js-2.1/lib/js/classList.js', condition: function () {
+        return !document.body.classList;
+      } },
+      { src: 'reveal.js-2.1/plugin/markdown/showdown.js', condition: function () {
+        return !!document.querySelector('[data-markdown]');
+      } },
+      { src: 'reveal.js-2.1/plugin/markdown/markdown.js', condition: function () {
+        return !!document.querySelector('[data-markdown]');
+      } },
+      { 
+        src: 'reveal.js-2.1/plugin/highlight/highlight.js',
+        async: true,
+        callback: function () {
+          /*console.log('XXXXX');
+          hljs.LANGUAGES.gherkin_en = {
+            defaultMode: {
+              contains: [
+                {
+                  className: 'keyword',
+                  begin: '^\\s*(But |And |Then |When |Given |\\* |Scenarios|Examples|Scenario Template|Scenario Outline|Scenario|Background|Feature)',
+                  relevance: 0
+                },
+                {
+                  className: 'string',
+                  begin: '\\|',
+                  relevance: 0
+                },
+                hljs.HASH_COMMENT_MODE,
+                {
+                  className: 'string',
+                  begin: '"""', end: '"""',
+                  relevance: 10
+                },
+                hljs.APOS_STRING_MODE, 
+                hljs.QUOTE_STRING_MODE,
+                hljs.C_NUMBER_MODE,
+                {
+                  className: 'annotation', begin: '@[^@\r\n\t ]+'
+                }
+              ]
+            }
+          };
+*/
+          hljs.initHighlightingOnLoad(); 
+        }
+      },
+      /*{
+        src: 'reveal.js-2.1/plugin/highlight/gherkin_en.js',
+        async: true,
+        
+        callback: function () {
+          console.log('XXXXX');
+          hljs.initHighlightingOnLoad(); 
+        }
+      },*/
+      { src: 'reveal.js-2.1/plugin/zoom-js/zoom.js', async: true, condition: function () {
+        return !!document.body.classList;
+      } },
+      { src: 'reveal.js-2.1/plugin/notes/notes.js', async: true, condition: function () {
+        return !!document.body.classList;
+      } }
+    ]
+  });
+
+</script>
+
+</body>
+</html>
